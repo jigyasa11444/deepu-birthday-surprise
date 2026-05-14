@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission Deepu 🎂</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#ffd6e8,#d6f3ff);
+    overflow-x:hidden;
+    min-height:100vh;
+    color:#333;
+}
+.container{
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    padding:20px;
+    text-align:center;
+}
+
+.card{
+    background:white;
+    padding:35px;
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    max-width:700px;
+    width:100%;
+    position:relative;
+    overflow:hidden;
+}
+h1{
+    font-size:3rem;
+    margin-bottom:15px;
+    color:#ff4f93;
+}
+
+h2{
+    margin-bottom:15px;
+}
+
+p{
+    font-size:1.1rem;
+    line-height:1.7;
+}
+
+input{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:15px;
+    margin-top:20px;
+    background:#f2f2f2;
+    font-size:1rem;
+}
+button{
+    margin-top:20px;
+    padding:14px 30px;
+    border:none;
+    border-radius:30px;
+    background:#ff4f93;
+    color:white;
+    cursor:pointer;
+    font-size:1rem;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+    background:#ff2f7b;
+}
+
+.hidden{
+    display:none;
+}
+.countdown{
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    margin:25px 0;
+    flex-wrap:wrap;
+}
+
+.time-box{
+    background:#ffeaf4;
+    padding:20px;
+    border-radius:20px;
+    min-width:100px;
+}
+
+.time-box h3{
+    font-size:2rem;
+    color:#ff4f93;
+}
+
+.gallery{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin-top:25px;
+}
+.gallery img{
+    width:180px;
+    height:260px;
+    object-fit:cover;
+    border-radius:20px;
+    transition:0.4s;
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+.gallery img:hover{
+    transform:scale(1.05);
+}
+
+.floating{
+    position:fixed;
+    font-size:25px;
+    animation:float 8s linear infinite;
+    opacity:0.7;
+    pointer-events:none;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(100vh) rotate(0deg);
+        opacity:0;
+    }
+    10%{
+        opacity:1;
+    }
+    100%{
+        transform:translateY(-120vh) rotate(360deg);
+        opacity:0;
+    }
+}
+
+#gameArea{
+    width:100%;
+    height:350px;
+    background:#fff5fa;
+    border-radius:20px;
+    position:relative;
+    overflow:hidden;
+    margin-top:25px;
+}
+
+#deepu{
+    position:absolute;
+    font-size:50px;
+    cursor:pointer;
+    transition:0.2s;
+}
+.score{
+    margin-top:15px;
+    font-size:1.2rem;
+    font-weight:bold;
+}
+
+.final-message{
+    margin-top:30px;
+    background:#fff0f6;
+    padding:25px;
+    border-radius:20px;
+}
+
+.firework{
+    position:fixed;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    animation:explode 1s ease-out forwards;
+}
+@keyframes explode{
+    from{
+        transform:scale(1);
+        opacity:1;
+    }
+    to{
+        transform:scale(15);
+        opacity:0;
+    }
+}
+
+@media(max-width:600px){
+    h1{
+        font-size:2rem;
+    }
+
+    .gallery img{
+        width:130px;
+        height:190px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- LOGIN SCREEN -->
+    <div class="card" id="loginCard">
+        <h1>Mission: Find Deepu 🕵️</h1>
+        <p>
+            Access denied 🚫<br>
+            This system detected one missing person who disappeared for a very long time 👀
+        </p>
+
+        <input type="password" id="password" placeholder="Enter Secret Password">
+        <button onclick="checkPassword()">Unlock Surprise 💖</button>
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+    <div class="card hidden" id="mainContent">
+
+        <h1>Happy Birthday Deepu 🎂</h1>
+
+        <p>
+            Congratulations 🎉<br>
+            You officially survived another year of ghosting people 😭
+        </p>
+ <div class="countdown">
+            <div class="time-box">
+                <h3 id="days">0</h3>
+                <span>Days</span>
+            </div>
+
+            <div class="time-box">
+                <h3 id="hours">0</h3>
+                <span>Hours</span>
+            </div>
+
+            <div class="time-box">
+                <h3 id="minutes">0</h3>
+                <span>Minutes</span>
+            </div>
+
+            <div class="time-box">
+                <h3 id="seconds">0</h3>
+                <span>Seconds</span>
+            </div>
+        </div>
+         <h2>Mini Mission 🎮</h2>
+        <p>
+            Catch Deepu before he disappears again 💀
+        </p>
+
+        <div id="gameArea">
+            <div id="deepu">🏏</div>
+        </div>
+
+        <div class="score">
+            Score: <span id="score">0</span>/10
+        </div>
+
+        <button onclick="showGallery()">Unlock Memories 📸</button>
+
+        <div id="gallerySection" class="hidden">
+            <div class="gallery">
+                <img src="photo1.jpg" alt="memory1">
+                <img src="photo2.jpg" alt="memory2">
+                <img src="photo3.jpg" alt="memory3">
+            </div>
+
+             <div class="final-message">
+                <h2>One Last Thing 💖</h2>
+
+                <p>
+                    Just Friends (Not Really)<br>
+                    You disappear randomly.<br>
+                    Things are going well!<br><br>
+
+                    But somehow…
+                    talking to you still feels special.
+                    <br><br>
+
+                    And honestly?
+                    That last goodbye hug stayed with me.
+                    <br><br>
+
+                    So here's your birthday surprise,
+                    Mister Ghost Mode 👻
+                    <br><br>
+
+                    Happy Birthday Deepu 💖
+                </p>
+
+                <button onclick="fireworks()">Click For Final Surprise ✨</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<audio autoplay loop>
+    <source src="music.mp3" type="audio/mp3">
+</audio>
+
+<script>
+
+// PASSWORD
+function checkPassword(){
+    const pass = document.getElementById('password').value;
+
+    if(pass === 'FarkPadtaHai'){
+        document.getElementById('loginCard').classList.add('hidden');
+        document.getElementById('mainContent').classList.remove('hidden');
+    }
+    else{
+        alert('Wrong password 😭 Deepu forgot again');
+    }
+}
+
+
+// COUNTDOWN
+const birthday = new Date('May 15, 2026 00:00:00').getTime();
+setInterval(()=>{
+    const now = new Date().getTime();
+    const gap = birthday - now;
+
+    const days = Math.floor(gap / (1000*60*60*24));
+    const hours = Math.floor((gap % (1000*60*60*24)) / (1000*60*60));
+    const minutes = Math.floor((gap % (1000*60*60)) / (1000*60));
+    const seconds = Math.floor((gap % (1000*60)) / 1000);
+
+    document.getElementById('days').innerText = days;
+    document.getElementById('hours').innerText = hours;
+    document.getElementById('minutes').innerText = minutes;
+    document.getElementById('seconds').innerText = seconds;
+
+},1000);
+
+
+// FLOATING HEARTS
+function createFloating(){
+    const item = document.createElement('div');
+    item.classList.add('floating');
+
+    const symbols = ['💖','✨','⭐','💫','💕'];
+    item.innerHTML = symbols[Math.floor(Math.random()*symbols.length)];
+     item.style.left = Math.random()*100 + 'vw';
+    item.style.fontSize = (20 + Math.random()*30) + 'px';
+
+    document.body.appendChild(item);
+
+    setTimeout(()=>{
+        item.remove();
+    },8000);
+}
+
+setInterval(createFloating,500);
+
+
+// MINI GAME
+const deepu = document.getElementById('deepu');
+const gameArea = document.getElementById('gameArea');
+const scoreDisplay = document.getElementById('score');
+
+let score = 0;
+
+function moveDeepu(){
+    const x = Math.random() * (gameArea.clientWidth - 60);
+    const y = Math.random() * (gameArea.clientHeight - 60);
+    deepu.style.left = x + 'px';
+    deepu.style.top = y + 'px';
+}
+
+moveDeepu();
+setInterval(moveDeepu,900);
+
+
+deepu.addEventListener('click',()=>{
+    score++;
+    scoreDisplay.innerText = score;
+    moveDeepu();
+
+    if(score >= 10){
+        alert('You finally caught Deepu 😭🏏');
+    }
+});
+
+
+// SHOW GALLERY
+function showGallery(){
+    document.getElementById('gallerySection').classList.remove('hidden');
+}
+
+// FIREWORKS
+function fireworks(){
+
+    for(let i=0;i<40;i++){
+
+        const firework = document.createElement('div');
+        firework.classList.add('firework');
+
+        firework.style.left = Math.random()*100 + 'vw';
+        firework.style.top = Math.random()*100 + 'vh';
+
+        const colors = ['#ff4f93','#ffd166','#7bdff2','#cdb4db','#ff99c8'];
+        firework.style.background = colors[Math.floor(Math.random()*colors.length)];
+
+        document.body.appendChild(firework);
+
+        setTimeout(()=>{
+            firework.remove();
+        },1000);
+    }
+
+    alert('Happy Birthday Deepu 💖🎂');
+}
+</script>
+
+</body>
+</html>
